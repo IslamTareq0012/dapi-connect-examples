@@ -1,0 +1,13 @@
+{
+  "name": "dapi-web-example",
+  "version": "1.0.0",
+  "description": "Web example integrating with connect",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "http-server"
+  },
+  "author": "Kamil Kamili",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}
