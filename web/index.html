@@ -22,28 +22,35 @@
     <script>
       var handler = Dapi.create({
         //Intiation Connector with the correct paramteres
-        environment: 'sandbox',
-        appKey:'YOUR APP KEY',
-        redirectUri: 'YOUR REDIRECT URI',
-        onSuccess: function(accessCode) {
+        environment: "sandbox",
+        appKey:
+          "fef357a6ad5b92008155250160d016160b9479680282e1d96a504f347c97735e",
+        onSuccess: function(meta_data) {
           //This is the callback function when the end-user connects succesfully
-          console.log('onSuccess')
-          console.log(accessCode)
+          /**
+           * meta_data contains all the keys required in order to talk to dapi api.
+           * meta_data = {
+           *  connectionID: "YOUR_CONNECTION_ID",
+           *  userSecret: "YOUR_USER_SECRET",
+           *  accessCode: "YOUR_ACCESS_CODE"
+           * }
+           **/
+          console.log(meta_data);
         },
         onFailure: function(err) {
           //This is the callback function when the end-user is unable to connect succesfully
           if (err != null) {
-            console.log('Error')
-            console.log(err)
+            console.log("Error");
+            console.log(err);
           } else {
-            console.log('No error')
+            console.log("No error");
           }
-        },
-      })
+        }
+      });
       var clickMe = function() {
         //function to show the Connect interface
-        handler.open()
-      }
+        handler.open();
+      };
     </script>
   </body>
 </html>

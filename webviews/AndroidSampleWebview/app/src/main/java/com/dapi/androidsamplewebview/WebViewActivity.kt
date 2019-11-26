@@ -22,7 +22,6 @@ class WebViewActivity : AppCompatActivity() {
         val connectConfigurationLink = HashMap<String, String>()
         connectConfigurationLink.put("appKey" , "c1606405091dc6f0f0b9ab34dec5f9c404042bcef7ceafa4c2527074947cb5d0")
         connectConfigurationLink.put("environment", "sandbox")
-        connectConfigurationLink.put("redirectUri", "https://google.com")
         connectConfigurationLink.put("baseUrl" , "https://connect.dapi.co")
 
         // Generate the Connect initialization URL based off of the configuration options.
@@ -54,6 +53,8 @@ class WebViewActivity : AppCompatActivity() {
                         //TODO take this access_code after successful connection and exchange it for an access_token
 
                         Log.d("ConnectLogs", " Access Code: $data['access_code']")
+                        Log.d("ConnectLogs", " Access Code: $data['user_secret']")
+                        Log.d("ConnectLogs", " Access Code: $data['connection_id']")
 
                         finish()
                     } else if (action == "exit") {
