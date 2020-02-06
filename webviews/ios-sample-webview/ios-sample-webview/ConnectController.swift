@@ -47,11 +47,11 @@ class ConnectController: UIViewController, WKNavigationDelegate {
     // generateLinkInitializationURL -> create the url with query parameters
     func generateConnectInitializationURL() -> String {
         let config = [
-            "appKey": "9768810699237332cdd9a4791d26f921790ffa72c44733675644580f556cd345",
+            "appKey": "YOUR_APP_KEY",
             "environment": "sandbox",
-            "redirectUri": "https://google.com",
             "isMobile": "true",
             "isWebview": "true",
+            "countries": ['AE']
         ]
 
 

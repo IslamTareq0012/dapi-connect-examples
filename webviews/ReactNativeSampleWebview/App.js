@@ -8,8 +8,11 @@ const environment = 'sandbox';
 const redirectUri = 'https://google.com';
 const appKey =
   '9768810699237332cdd9a4791d26f921790ffa72c44733675644580f556cd345';
+const countries = ['AE'];
 
-const dapiUrl = `${baseUrl}?appKey=${appKey}&environment=${environment}&redirectUri=${redirectUri}&isMobile=true&isWebview=true`;
+const dapiUrl = `${baseUrl}?appKey=${appKey}&environment=${environment}&redirectUri=${redirectUri}&isMobile=true&isWebview=true&countries=${JSON.stringify(
+  countries,
+)}`;
 
 class App extends Component {
   // parseQuery -> parse query parameters into an Object

@@ -22,8 +22,9 @@
     <script>
       var handler = Dapi.create({
         //Intiation Connector with the correct paramteres
-        environment: "sandbox",
-        appKey: "YOUR_APP_KEY",
+        environment: 'sandbox',
+        appKey: 'YOUR_APP_KEY',
+        countries: ['AE'],
         onSuccess: function(meta_data) {
           //This is the callback function when the end-user connects succesfully
           /**
@@ -34,22 +35,22 @@
            *  accessCode: "YOUR_ACCESS_CODE"
            * }
            **/
-          console.log(meta_data);
+          console.log(meta_data)
         },
         onFailure: function(err) {
           //This is the callback function when the end-user is unable to connect succesfully
           if (err != null) {
-            console.log("Error");
-            console.log(err);
+            console.log('Error')
+            console.log(err)
           } else {
-            console.log("No error");
+            console.log('No error')
           }
-        }
-      });
+        },
+      })
       var clickMe = function() {
         //function to show the Connect interface
-        handler.open();
-      };
+        handler.open()
+      }
     </script>
   </body>
 </html>

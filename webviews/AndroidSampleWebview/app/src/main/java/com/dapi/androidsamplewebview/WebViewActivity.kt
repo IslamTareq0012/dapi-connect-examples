@@ -20,9 +20,10 @@ class WebViewActivity : AppCompatActivity() {
 
         // Initialize Connect URl
         val connectConfigurationLink = HashMap<String, String>()
-        connectConfigurationLink.put("appKey" , "c1606405091dc6f0f0b9ab34dec5f9c404042bcef7ceafa4c2527074947cb5d0")
+        connectConfigurationLink.put("appKey" , "YOUR_APP_KEY")
         connectConfigurationLink.put("environment", "sandbox")
         connectConfigurationLink.put("baseUrl" , "https://connect.dapi.co")
+        connectConfigurationLink.put("countries" , ['AE'])
 
         // Generate the Connect initialization URL based off of the configuration options.
         val connectUrl = generateConnectInitializationUrl(connectConfigurationLink)
