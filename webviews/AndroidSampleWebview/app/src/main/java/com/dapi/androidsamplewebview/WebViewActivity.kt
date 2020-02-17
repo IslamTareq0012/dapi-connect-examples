@@ -8,7 +8,10 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_webview.*
+import org.json.JSONArray
+import org.json.JSONStringer
 import java.util.HashMap
 
 class WebViewActivity : AppCompatActivity() {
@@ -23,7 +26,6 @@ class WebViewActivity : AppCompatActivity() {
         connectConfigurationLink.put("appKey" , "YOUR_APP_KEY")
         connectConfigurationLink.put("environment", "sandbox")
         connectConfigurationLink.put("baseUrl" , "https://connect.dapi.co")
-        connectConfigurationLink.put("countries" , ['AE'])
 
         // Generate the Connect initialization URL based off of the configuration options.
         val connectUrl = generateConnectInitializationUrl(connectConfigurationLink)
@@ -51,11 +53,12 @@ class WebViewActivity : AppCompatActivity() {
 
                     if (action == "connected") {
 
-                        //TODO take this access_code after successful connection and exchange it for an access_token
+                        //TODO take these keys after successful connection and exchange it for an access_token
 
                         Log.d("ConnectLogs", " Access Code: $data['access_code']")
-                        Log.d("ConnectLogs", " Access Code: $data['user_secret']")
-                        Log.d("ConnectLogs", " Access Code: $data['connection_id']")
+                        Log.d("ConnectLogs", " User Secret: $data['user_secret']")
+                        Log.d("ConnectLogs", " Connection ID: $data['connection_id']")
+                        Log.d("ConnectLogs", " Bank ID: $data['bank_id']")
 
                         finish()
                     } else if (action == "exit") {
@@ -75,12 +78,13 @@ class WebViewActivity : AppCompatActivity() {
                         Log.d("ConnectLogs", "Error Happened!")
                         Log.d("ConnectLogs", "Error type: $data['error_type']")
                         Log.d("ConnectLogs", "Error Message: $data['error_message'']")
+                        finish()
 
                     } else {
                         Log.d("ConnectLogs ", action!!)
                     }
                     return true
-                } else return parsedUri.scheme == "https" || parsedUri.scheme == "http"
+                } else return false
             }
         }
 
@@ -94,10 +98,13 @@ class WebViewActivity : AppCompatActivity() {
     // Generate a Dapi Connect initialization URL based on a set of configuration options
     // You need to append isWebview and isMobile to render the connect in webview format
     fun generateConnectInitializationUrl(configurationOptions: HashMap<String, String>): Uri {
+        val gson = Gson()
+        val countries = arrayOf("AE")
         val builder = Uri.parse(configurationOptions["baseUrl"])
             .buildUpon()
             .appendQueryParameter("isWebview", "true")
             .appendQueryParameter("isMobile", "true")
+            .appendQueryParameter("countries", gson.toJson(countries))
         for (key in configurationOptions.keys) {
             if (key != "baseUrl") {
                 builder.appendQueryParameter(key, configurationOptions[key])
