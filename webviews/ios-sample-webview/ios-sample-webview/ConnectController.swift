@@ -34,6 +34,14 @@ class ConnectController: UIViewController, WKNavigationDelegate {
     override var prefersStatusBarHidden : Bool {
         return true
     }
+    
+
+    func json(from object:Any) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
+            return nil
+        }
+        return String(data: data, encoding: String.Encoding.utf8)
+    }
 
 
     // getUrlParams -> parse query parameters into a Dictionary
@@ -51,7 +59,7 @@ class ConnectController: UIViewController, WKNavigationDelegate {
             "environment": "sandbox",
             "isMobile": "true",
             "isWebview": "true",
-            "countries": ['AE']
+            "countries": json(from: ["AE"])
         ]
 
 
@@ -113,6 +121,5 @@ class ConnectController: UIViewController, WKNavigationDelegate {
             decisionHandler(.allow)
         }
     }
-
 }
 
