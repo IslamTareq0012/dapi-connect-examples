@@ -32,8 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String generateConnectInitializationUrl() {
     var baseUrl = "connect.dapi.co";
     var config = {
-      "appKey":
-          "31b0d52278655aedeed11600012fd803458e87db5d2d9bbc6e96fb5136de6256",
+      "appKey": "YOUR_APP_KEY",
       "environment": "sandbox",
       "isMobile": "true",
       "isWebview": "true",
