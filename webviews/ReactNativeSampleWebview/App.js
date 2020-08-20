@@ -16,8 +16,7 @@ const CONNECT_LINK = {
   EXIT: 'v2/connection/exit',
 };
 
-const appKey =
-  '0c96cfce3258c7eeb5299d5d6a847cf66c5ea5ac4a263a0cf6a3930b954fff6f';
+const appKey = 'YOUR_APP_KEY';
 
 const connectURL = `${BASE_URL}?appKey=${appKey}&environment=${environment}&isMobile=true&isWebview=true&countries=${JSON.stringify(
   countries,
