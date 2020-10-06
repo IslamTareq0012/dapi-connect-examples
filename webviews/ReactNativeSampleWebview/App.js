@@ -3,20 +3,28 @@ import {SafeAreaView, StatusBar, View, Button} from 'react-native';
 import {WebView} from 'react-native-webview';
 import URL from 'url';
 
-const baseUrl = 'https://connect.dapi.co';
-const environment = 'sandbox';
-const redirectUri = 'https://google.com';
-const appKey =
-  '9768810699237332cdd9a4791d26f921790ffa72c44733675644580f556cd345';
+const BASE_URL = 'https://connect.dapi.co/v2/connection';
+const environment = 'production'; // Can be sandbox or production
+const showLogo = false; //Hide or show all logos
+const isMobile = false; //Hide or show the 'X' button on the list of banks screen
+const isExperimental = false; //Hide or show the experimental banks
 const countries = ['AE'];
 
-const dapiUrl = `${baseUrl}?appKey=${appKey}&environment=${environment}&redirectUri=${redirectUri}&isMobile=true&isWebview=true&countries=${JSON.stringify(
+const CONNECT_LINK = {
+  ERROR: 'v2/connection/error',
+  SUCCESS: 'v2/connection/success',
+  EXIT: 'v2/connection/exit',
+};
+
+const appKey = 'YOUR_APP_KEY';
+
+const connectURL = `${BASE_URL}?appKey=${appKey}&environment=${environment}&isMobile=true&isWebview=true&countries=${JSON.stringify(
   countries,
-)}`;
+)}&isExperimental=${isExperimental}&showLogo=${showLogo}&isMobile=${isMobile}`;
 
 class App extends Component {
   // parseQuery -> parse query parameters into an Object
-  parseQuery = queryString => {
+  parseQuery = (queryString) => {
     const query = {};
     let pairs = (queryString[0] === '?'
       ? queryString.substr(1)
@@ -35,50 +43,21 @@ class App extends Component {
    * We make sure that we dont load the webview if its a custom connect uri,
    * instead we parse the uri and capture the params.
    */
-  onShouldStartLoadWithRequest = navigator => {
+  onShouldStartLoadWithRequest = (navigator) => {
     const {url} = navigator;
     const uri = URL.parse(url);
-    if (uri.protocol === 'dapiconnect:') {
-      const query = this.parseQuery(uri.search);
-      if (uri.host === 'event') {
-        console.log('Event has been fired');
-        // The event action is fired as the user moves through connect
-        Object.keys(query).map(key => {
-          console.log(`${key} : ${query[key]} `);
-        });
-      } else if (uri.host === 'error') {
-        console.log('error_has_happened');
-        // The error action is fired whenever an error occurs in connect
-        Object.keys(query).map(key => {
-          console.log(`${key} : ${query[key]} `);
-        });
-      } else if (uri.host === 'exit') {
-        console.log('exit_has_happened');
-        Object.keys(query).map(key => {
-          console.log(`${key} : ${query[key]} `);
-        });
-        // Close the webview
-        this.setState({
-          isOpen: false,
-        });
-      } else if (uri.host === 'connected') {
-        console.log('connected_has_happened');
-        // Take this access_code and exchange it for an access_token
-        Object.keys(query).map(key => {
-          console.log(`${key} : ${query[key]} `);
-        });
-        // Close the webview
-        this.setState({
-          isOpen: false,
-        });
-      }
-      // Prevent loading of custom dapi uri.
-      return false;
-    } else if (uri.protocol === 'http:' || uri.protocol === 'https:') {
-      // Handle http:// and https:// links inside of dapi,
-      // This is necessary for redirects
-      return true;
+
+    if (uri.pathname.includes(CONNECT_LINK.ERROR)) {
+      const params = this.parseQuery(uri.search);
+    } else if (uri.pathname.includes(CONNECT_LINK.SUCCESS)) {
+      const params = this.parseQuery(uri.search);
+      //Contact your backend for Exchange Token
+    } else if (uri.pathname.includes(CONNECT_LINK.EXIT)) {
+      const params = this.parseQuery(uri.search);
+      //If params exist it came from Find a bank request
     }
+
+    return true;
   };
 
   state = {
@@ -110,11 +89,11 @@ class App extends Component {
             />
           ) : (
             <WebView
-              ref={ref => (this.webview = ref)}
+              ref={(ref) => (this.webview = ref)}
               source={{
-                uri: dapiUrl,
+                uri: connectURL,
               }}
-              onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
+              onNavigationStateChange={this.onShouldStartLoadWithRequest}
             />
           )}
         </SafeAreaView>
